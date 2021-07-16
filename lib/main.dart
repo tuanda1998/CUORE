@@ -1,57 +1,24 @@
 import 'package:cuore/screen/home.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MyHomePage(title: 'CUORE'));
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-
-  @override
-  Widget build(BuildContext context) {
-    SharedPreferences.setMockInitialValues({});
-    return MaterialApp(
-      title: 'CUORE',
-      theme: new ThemeData(
-          // primaryColor: new Color(0xff075E54),
-          accentColor: new Color(0xff25D366),
-          primarySwatch: Colors.blue,
-          primaryColor: Colors.white,
-          primaryIconTheme: IconThemeData(color: Colors.blue),
-          primaryTextTheme: TextTheme(
-              title: TextStyle(color: Colors.black, fontFamily: "Aveny")),
-          textTheme:
-              TextTheme(title: TextStyle(color: Colors.black, fontSize: 16))),
-      debugShowCheckedModeBanner: false,
-      home: MyHomePage(title: 'CUORE'),
-      locale: const Locale('es'),
-    );
-  }
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+        supportedLocales: [Locale('en'), Locale('es')],
+        path: 'assets/translations',
+        fallbackLocale: Locale('en'),
+        child: MyHomePage()
+    ),
+  );
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState(title: this.title);
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final String title;
-
-  _MyHomePageState({required this.title});
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return  MaterialApp(
       // localizationsDelegates: [
       //   const SLMessageDelegate(),
       //   GlobalMaterialLocalizations.delegate,
@@ -92,10 +59,10 @@ class _MyHomePageState extends State<MyHomePage> {
       //   const Locale.fromSubtags(languageCode: 'es'), // Spain
       //   const Locale.fromSubtags(languageCode: 'sw'), // Swahiri
       // ],
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-
-      supportedLocales: AppLocalizations.supportedLocales,
-      title: this.title,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale.languageCode == 'en' ? Locale('en'): Locale('es'),
+      title: 'CUORE',
       theme: new ThemeData(
           // primaryColor: new Color(0xff075E54),
           accentColor: new Color(0xff25D366),
@@ -107,7 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
           textTheme:
               TextTheme(title: TextStyle(color: Colors.black, fontSize: 16))),
       debugShowCheckedModeBanner: false,
-      locale: const Locale('es'),
       home: HomeScreen(),
       // home: new CureGoHome(),
     );

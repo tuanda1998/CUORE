@@ -391,8 +391,8 @@ class _RingupState extends State<RingupScreen>
           CupertinoDialogAction(
             child: Text("Cancel"),
             onPressed: () {
-              Navigator.of(_originalContext).popUntil((route) => route.isFirst);
-              Navigator.of(context).pop(false);
+              // Navigator.of(_originalContext).popUntil((route) => route.isFirst);
+              Navigator.of(context).pop();
             },
           )
         ],
@@ -627,14 +627,10 @@ class _RingupState extends State<RingupScreen>
     // 送信者
     var user = await App.getProfile();
 
-    String? name = '';
-
-    if (user != null) {
-      name = user['name'];
-    }
-
+    String name = '';
+    name = user['name']!=null ? user['name']:'CUORE';
     // 送信者
-    var text = '@' + user['name'] + ',';
+    var text = '@' + name + ',';
     // 顧客名
     text += 'N' + customer.name + ',';
     // 日付

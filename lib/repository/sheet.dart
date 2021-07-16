@@ -64,7 +64,7 @@ class CustomerDb {
       var value = row['Value'];
       if (client.length > 0) {
         if (user != null) {
-          user.station = station;
+          // user.station = station;
           result.add(user);
         }
         user = CustomerData(place: place, name: client, station: station);

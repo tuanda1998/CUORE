@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:cuore/generated/l10n.dart';
+import 'package:cuore/generated/locale_keys.g.dart';
 import 'package:cuore/profile/app.dart';
 import 'package:cuore/repository/otc.dart';
 import 'package:cuore/repository/sheet.dart';
@@ -14,7 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Show customers list.
 class HomeScreen extends StatefulWidget {
@@ -57,6 +59,7 @@ class _WhatsAppHomeState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
+
     _tabController = new TabController(vsync: this, initialIndex: 0, length: 2);
 
     reload();
@@ -122,6 +125,8 @@ class _WhatsAppHomeState extends State<HomeScreen>
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   Widget screen() {
+    print('duongtuan1:${Localizations.localeOf(context)}');
+
     return new Scaffold(
       key: _scaffoldKey,
       appBar: appBar() as PreferredSizeWidget?,
@@ -132,8 +137,8 @@ class _WhatsAppHomeState extends State<HomeScreen>
             builder: (context) => AddNewCustomer(_customerList),
           ));
         },
-        label: const Text(
-          'Add',
+        label: Text(
+          LocaleKeys.add.tr(),
           style: TextStyle(color: Colors.white),
         ),
         icon: const Icon(
@@ -159,8 +164,8 @@ class _WhatsAppHomeState extends State<HomeScreen>
           TextField(
             controller: _textEditingController,
             decoration: InputDecoration(
-              labelText: AppLocalizations.of(context).user_name,
-              hintText: AppLocalizations.of(context).user_name,
+              labelText: LocaleKeys.user_name.tr(),
+              hintText: LocaleKeys.user_name.tr(),
               icon: Icon(Icons.account_circle),
             ),
             autocorrect: false,
@@ -168,7 +173,7 @@ class _WhatsAppHomeState extends State<HomeScreen>
             keyboardType: TextInputType.text,
           ),
           RaisedButton(
-            child: Text(AppLocalizations.of(context).save),
+            child: Text(LocaleKeys.save.tr()),
             color: Colors.orange,
             textColor: Colors.white,
             onPressed: () async {
@@ -240,7 +245,7 @@ class _WhatsAppHomeState extends State<HomeScreen>
         child: Column(children: [
           Text(message),
           OutlineButton(
-              child: Text(AppLocalizations.of(context).resend),
+              child: Text(LocaleKeys.resend.tr()),
               onPressed: () async {
                 int result =
                     await (HelperFunction().sendSms(message));
@@ -258,7 +263,7 @@ class _WhatsAppHomeState extends State<HomeScreen>
                       actions: [
                         CupertinoDialogAction(
                           isDefaultAction: true,
-                          child: Text(AppLocalizations.of(context).ok),
+                          child: Text(LocaleKeys.ok.tr()),
                           onPressed: () async {
                             Navigator.of(context).pop(false);
                           },
@@ -284,7 +289,7 @@ class _WhatsAppHomeState extends State<HomeScreen>
                       actions: [
                         CupertinoDialogAction(
                           isDefaultAction: true,
-                          child: Text(AppLocalizations.of(context).ok),
+                          child: Text(LocaleKeys.ok.tr()),
                           onPressed: () async {
                             Navigator.of(context).pop(false);
                           },
@@ -556,7 +561,7 @@ class _WhatsAppHomeState extends State<HomeScreen>
             child: Row(
               children: [
                 Text(
-                  AppLocalizations.of(context).village,
+                  LocaleKeys.village.tr(),
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(
@@ -569,10 +574,10 @@ class _WhatsAppHomeState extends State<HomeScreen>
                     elevation: 10,
                     hint: Text(_selectedVillage != null
                         ? _selectedVillage!
-                        : AppLocalizations.of(context).choose_an_option),
+                        : LocaleKeys.choose_an_option.tr()),
                     items: [
                       DropdownMenuItem<String>(
-                        value: AppLocalizations.of(context).all,
+                        value: LocaleKeys.all.tr(),
                         child: new Text('All villages'),
                       ),
                       ...(_customerVillages.map((village) {
@@ -592,7 +597,7 @@ class _WhatsAppHomeState extends State<HomeScreen>
             child: Row(
               children: [
                 Text(
-                  AppLocalizations.of(context).place,
+                  LocaleKeys.place.tr(),
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(
@@ -605,10 +610,10 @@ class _WhatsAppHomeState extends State<HomeScreen>
                     elevation: 10,
                     hint: Text(_selectedStation != null
                         ? _selectedStation!
-                        : AppLocalizations.of(context).choose_an_option),
+                        : LocaleKeys.choose_an_option.tr()),
                     items: [
                       DropdownMenuItem<String>(
-                        value: AppLocalizations.of(context).all,
+                        value: LocaleKeys.all.tr(),
                         child: new Text('All station'),
                       ),
                       ...(_customerStation.map((village) {
